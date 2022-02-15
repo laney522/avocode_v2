@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Input, Menu, Row, Col } from 'antd';
@@ -40,7 +40,7 @@ const AppLayout = ({ children }) => {
   );
 };
 
-AppLayout.prototype = {
+AppLayout.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
