@@ -1,9 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Form, Input, Button } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
+
+import { useDispatch } from 'react-redux';
+
 import useInput from '../hooks/useInput';
+import { loginAction } from '../reducers/user';
 
 
 const ButtonWrapper = styled.div`
@@ -14,13 +17,14 @@ const FormWrapper = styled(Form)`
   padding: 10px;
 `;
 
-const LoginForm = ({ setIsLoggedIn }) => {
+const LoginForm = () => {
+  const dispatch = useDispatch();
   const [id, onChangeId] = useInput('');
   const [password, onChangePassword] = useInput('');
 
   const onSubmitForm = useCallback(() => {
     console.log(id, password);
-    setIsLoggedIn(true);
+    dispatch(loginAction({ id, password }));
   }, [id, password]);
 
   const style = useMemo(() => ({ marginTop: 10 }), []);// 이런식으로 useMemo를 해주어야 리렌더링 최적화가 된다.
@@ -51,8 +55,6 @@ const LoginForm = ({ setIsLoggedIn }) => {
   );
 }
 
-LoginForm.propTypes = {
-  setIsLoggedIn: PropTypes.func.isRequired,
-};
+
 
 export default LoginForm;
