@@ -1,6 +1,6 @@
 export const initialState = {
   isLoggedIn: false,
-  user: null,
+  me: null,
   signUpData: {},
   loginData: {},
 }
@@ -24,13 +24,13 @@ const reducer = (state = initialState, action) => {
       return {
           ...state,          // 안바꾸고 싶은 것은 Object spread로 참조관계 유지해주기.
           isLoggedIn: true,         // 내가 바꾸고 싶은것만 정확하게 써주기
-          user: action.data,
+          me: action.data,
       };
     case 'LOG_OUT':
       return {
         ...state,           
         isLoggedIn: false,        
-        user: null,
+        me: null,
       };
     default:
       return state;
