@@ -1,34 +1,49 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addPost } from '../reducers/post';
+
+import useInput from '../hooks/useInput';
+
 
 const PostForm = () => {
-  const { imagePaths } = useSelector((state) => state.post);
-  const imageInput = useRef();              // Ref : 실제 Dom에 접근하기 위해서 ref를 쓴다.
   const dispatch = useDispatch();
-  const {text, setText} = useState('');
-  const onChangeText = useCallback((e) => {
-    setText(e.target.value);
-  }, []);
-  const onSubmit = useCallback(() => {
-    dispatch(addPost);
-    setText('');
-  }, []);
+  const { text, setText } = useState('');
+  const { imagePaths, addPostLoading, addPostDone } = useSelector((state) => state.post);
+
+  const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
     imageInput.current.click();
   }, [imageInput.current]);
 
+  useEffect(() => {
+    if (addPostDone) {
+      setText('');
+    }
+  }, [addPostDone]);
+
+  const onSubmitForm = useCallback(() => {
+    dispatch({
+      type: ADD_POST_REQUEST,
+      data: {
+        text,
+      },
+    });
+  }, []);
+
+  const onChangeText = useCallback((e) => {
+    setText(e.target.value);
+  }, []);
+
   return (
-    <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmit}>
-      <Input.TextArea 
+    <Form style={{ margin: '10px 0 20px' }} encType="multipart/form-data" onFinish={onSubmitForm}>
+      <Input.TextArea
         value={text}
         onChange={onChangeText}
         maxLength={140}
         placeholder='What happen?'
       />
       <div>
-        <Input type="file" multiple hidden ref={imageInput}/>
+        <Input type="file" multiple hidden ref={imageInput} />
         <Button onClick={onClickImageUpload}>이미지 업로드</Button>
         <Button type="primary" style={{ float: 'right' }} htmlType="submit">Chirping</Button>
       </div>
@@ -38,7 +53,7 @@ const PostForm = () => {
             <img src={v} style={{ width: '200px' }} alt={v} />
             <div>
               <Button>제거</Button>
-            </div>        
+            </div>
           </div>
         ))}
       </div>
