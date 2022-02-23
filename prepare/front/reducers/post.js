@@ -1,6 +1,6 @@
 import shortId from 'shortid';
 import produce from 'immer';
-
+import faker from 'faker';
 
 export const initialState = {
   mainPosts: [{
@@ -36,7 +36,12 @@ export const initialState = {
       content: '유익한 내용입니다',
     }]
   }],
+  mainPosts: [],
   imagePaths: [],
+  hasMorePosts: true,
+  loadPostsLoading: false,
+  loadPostsDone: false,
+  loadPostsError: null,
   addPostLoading: false,
   addPostDone: false,
   addPostError: null,
@@ -46,7 +51,32 @@ export const initialState = {
   addCommentLoading: false,
   addCommentDone: false,
   addCommentError: null,
-}
+};
+
+initialState.mainPosts = initialState.mainPosts.concat(
+  Array(20).fill().map(() => ({
+    id: shortId.generate(),
+    User: {
+      id: shortId.generate(),
+      name: faker.name.findName()
+    },
+    content: faker.lorem.paragraph(),
+    Images: [{
+      src: faker.image.imageUrl(),
+    }],
+    Comments: [{
+      User: {
+        id: shortId.generate(),
+        nickname: faker.name.findName()
+      },
+      content: faker.lorem.sentence(),
+    }],
+  })),
+);
+
+export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
+export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
+export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
 export const ADD_POST_REQUEST = 'ADD_POST_REQUEST';
 export const ADD_POST_SUCCESS = 'ADD_POST_SUCCESS';

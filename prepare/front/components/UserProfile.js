@@ -1,15 +1,17 @@
-import React, { useCallback } from 'react';
 import { Card, Avatar, Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { logoutRequestAction } from '../reducers/user';  // 쪼갤 때는 항상 경로를 신경을써준다.
+import { LOG_OUT_REQUEST } from '../reducers/user';
 
 const UserProfile = () => {
-  const dispatch = useDispatch();
   const { me, logOutLoading } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const onLogOut = useCallback(() => {
-    dispatch(logoutAction());
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
   }, []);
 
   return (
