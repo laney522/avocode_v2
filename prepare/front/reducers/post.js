@@ -3,39 +3,6 @@ import produce from 'immer';
 import faker from 'faker';
 
 export const initialState = {
-  mainPosts: [{
-    id: 1,
-    User: {
-      id: 1,
-      nickname: '레니',
-    },
-    content: '첫 번째 게시글 #해시태그 #익스프레스',
-    Images: [{
-      id: shortId.generate(),
-      src: 'https://cdn.pixabay.com/photo/2022/02/01/11/48/woman-6986050_960_720.jpg',
-    }, {
-      id: shortId.generate(),
-      src: 'https://cdn.pixabay.com/photo/2019/03/27/15/24/animal-4085255__340.jpg',
-    }, {
-      id: shortId.generate(),
-      src: 'https://cdn.pixabay.com/photo/2022/02/09/20/52/labrador-retriever-7004193__340.jpg',
-    }],
-    Comments: [{
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: 'nero',
-      },
-      content: '너무 반가워요!',
-    }, {
-      id: shortId.generate(),
-      User: {
-        id: shortId.generate(),
-        nickname: 'hero',
-      },
-      content: '유익한 내용입니다',
-    }]
-  }],
   mainPosts: [],
   imagePaths: [],
   hasMorePosts: true,
@@ -53,8 +20,7 @@ export const initialState = {
   addCommentError: null,
 };
 
-initialState.mainPosts = initialState.mainPosts.concat(
-  Array(20).fill().map(() => ({
+export const generateDummyPost = (number) => Array(number).fill().map(() => ({
     id: shortId.generate(),
     User: {
       id: shortId.generate(),
@@ -70,10 +36,9 @@ initialState.mainPosts = initialState.mainPosts.concat(
         nickname: faker.name.findName()
       },
       content: faker.lorem.sentence(),
-    }],
-  })),
-);
-
+  }],
+}));
+ 
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
@@ -123,6 +88,21 @@ const dummyComment = (data) => ({
 // 리듀서 : 이전상태를 액션을 통해 다음 상태로 만들어내는 함수( 불변성은 지키면서 )
 const reducer = (state = initialState, action) => produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_POSTS_REQUEST:
+        draft.loadPostsLoading = true;
+        draft.loadPostsDone = false;
+        draft.loadPostsError = null;
+        break;
+      case LOAD_POSTS_SUCCESS:
+        draft.loadPostsLoading = false;
+        draft.loadPostsDone = true;
+        draft.mainPosts = action.data.concat(draft.mainPosts);
+        draft.hasMorePosts = draft.mainPosts.length < 50;
+        break;
+      case LOAD_POSTS_FAILURE:
+        draft.loadPostsLoading = false;
+        draft.loadPostsError = action.error;
+        break;
       case ADD_POST_REQUEST:
         draft.addPostLoading = true;
         draft.addPostDone = false;
