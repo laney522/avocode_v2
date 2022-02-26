@@ -125,13 +125,14 @@ function* watchRemovePost() {
   yield takeLatest(REMOVE_POST_REQUEST, removePost);  
 }
 
-function* watchCommentPost() {
-  yield takeLatest(ADD_COMMENT_REQUEST, addPost);  
+function* watchAddComment() {
+  yield takeLatest(ADD_COMMENT_REQUEST, addComment);  
 }
 
 export default function* postSaga() {
   yield all([
     fork(watchAddPost),
+    fork(watchLoadPosts),
     fork(watchRemovePost),
     fork(watchAddComment),
   ]);
