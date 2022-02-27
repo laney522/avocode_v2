@@ -1,6 +1,6 @@
 import axios from 'axios';
 import shortId from 'shortid';
-import { delay, put, takeLatest, all, fork } from 'redux-saga/effects';
+import { delay, put, takeLatest, all, fork, throttle } from 'redux-saga/effects';
 
 import { 
   ADD_COMMENT_FAILURE,
@@ -114,7 +114,7 @@ function* addComment(action) {
 }
 
 function* watchLoadPosts() {
-  yield takeLatest(LOAD_POSTS_REQUEST, loadPosts);  
+  yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);  
 }
 
 function* watchAddPost() {
