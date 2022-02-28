@@ -1,0 +1,14 @@
+{
+  "name": "react-avocode-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": ""
+  },
+  "author": "Laney",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
