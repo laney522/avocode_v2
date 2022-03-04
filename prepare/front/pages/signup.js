@@ -1,19 +1,40 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Head from 'next/head';
 import { Form, Input, Checkbox, Button } from 'antd';
 import styled from 'styled-components';
+import Router from 'next/router';
 
 import AppLayout from '../components/AppLayout';
 import useInput from '../hooks/useInput';
 import { SIGN_UP_REQUEST } from '../reducers/user';
 import { useDispatch, useSelector } from 'react-redux';
 
+
 const ErrorMessage = styled.div` 
   color: red;
 `;
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const { signUpLoading, signUpDone, signUpError, me } = useSelector((state) => state.user);
 
+  useEffect(() => {
+    if (me && me.id) {
+      Router.replace('/');
+    }
+  }, [me && me.id]);
+
+  useEffect(() => {
+    if (signUpDone) {
+      Router.push('/');
+    }
+  }, [signUpDone]);
+
+  useEffect(() => {
+    if (signUpError) {
+      alert(signUpError);
+    }
+  }, [signUpError]);
 
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickname] = useInput('');
@@ -61,7 +82,7 @@ const Signup = () => {
         <div>
           <label htmlFor="user-nick">닉네임</label>
           <br />
-          <Input name="user-id" value={nickname} required onChange={onChangeNickname} />
+          <Input name="user-nick" value={nickname} required onChange={onChangeNickname} />
         </div>
         <div>
           <label htmlFor="user-password">비밀번호</label>
