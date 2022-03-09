@@ -4,6 +4,7 @@ const passport = require('passport');
 
 const { User, Post } = require('../models');
 const db = require('../models');
+const user = require('../models/user');
 
 const router = express.Router();
 
