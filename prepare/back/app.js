@@ -47,11 +47,17 @@ app.get('/', (req, res) => {
   res.send('hello express');
 });
 
-app.get('/api', (req, res) => {
-  res.send('hello api');
-});
+// app.get('/api', (req, res) => {
+//   res.send('hello api');
+// });
 
-app.get('/posts', postsRouter);
+app.get('/posts', (req, res) => {
+  res.json([
+    { id: 1, content: 'hello' },
+    { id: 2, content: 'hello2' },
+    { id: 3, content: 'hello3' },
+  ]);
+});
 
 app.use('/post', postRouter);
 app.use('/user', userRouter);
