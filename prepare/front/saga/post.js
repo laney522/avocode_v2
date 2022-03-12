@@ -25,8 +25,7 @@ function loadPostsAPI(data) {
 
 function* loadPosts(action) {
   try {
-    // const result = yield call(addPostAPI, action.data);
-    yield delay(1000);
+    const result = yield call(addPostAPI, action.data);
     const id = shortId.generate();
     yield put({
       type: LOAD_POSTS_SUCCESS,
@@ -68,13 +67,12 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete('/api/post', data)
+  return axios.delete('/api/post', data );
 }
 
 function* removePost(action) {
   try {
-    // const result = yield call(removePostAPI, action.data);
-    yield delay(1000);
+    const result = yield call(removePostAPI, action.data);
     yield put({
       type: REMOVE_POST_SUCCESS,
       data: action.data,
@@ -93,7 +91,7 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post('/post/${data.postId}/comment', data)
+  return axios.post('/post/${data.postId}/comment', data ); // POST /post/1/comment
 }
 
 function* addComment(action) {
