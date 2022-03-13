@@ -1,6 +1,5 @@
 import shortId from 'shortid';
 import produce from 'immer';
-import faker from 'faker';
 
 export const initialState = {
   mainPosts: [],
@@ -20,24 +19,6 @@ export const initialState = {
   addCommentError: null,
 };
 
-export const generateDummyPost = (number) => Array(number).fill().map(() => ({
-    id: shortId.generate(),
-    User: {
-      id: shortId.generate(),
-      name: faker.name.findName()
-    },
-    content: faker.lorem.paragraph(),
-    Images: [{
-      src: faker.image.imageUrl(),
-    }],
-    Comments: [{
-      User: {
-        id: shortId.generate(),
-        nickname: faker.name.findName()
-      },
-      content: faker.lorem.sentence(),
-  }],
-}));
  
 export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_POSTS_SUCCESS = 'LOAD_POSTS_SUCCESS';

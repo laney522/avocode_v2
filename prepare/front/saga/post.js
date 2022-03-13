@@ -29,7 +29,7 @@ function* loadPosts(action) {
     const id = shortId.generate();
     yield put({
       type: LOAD_POSTS_SUCCESS,
-      data: generateDummyPost(10),
+      data: result.data,
     });
   } catch (err) {
     yield put({

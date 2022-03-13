@@ -60,6 +60,7 @@ app.get('/posts', (req, res) => {
 });
 
 app.use('/post', postRouter);
+app.use('/posts', postsRouter);
 app.use('/user', userRouter);
 
 app.listen(3065, () => {
