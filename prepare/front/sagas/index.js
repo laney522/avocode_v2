@@ -1,4 +1,4 @@
-import { all, fork } from 'redux-saga/effects';
+import { all, fork, take } from 'redux-saga/effects';
 import axios from 'axios';
 
 import postSaga from './post';

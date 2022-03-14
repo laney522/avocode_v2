@@ -106,7 +106,7 @@ const Signup = () => {
           {termError && <ErrorMessage>Please agree to the terms and conditions</ErrorMessage>}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType='submit'>가입하기</Button>
+          <Button type="primary" htmlType="submit" loading={signUpLoading}>가입하기</Button>
         </div>
       </Form>
     </AppLayout>

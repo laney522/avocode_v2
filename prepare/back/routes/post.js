@@ -21,8 +21,13 @@ router.post('/', isLoggedIn, async (req, res, next) => {
         model: Image,
       }, {
         model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+        }],
       }, {
         model: User,
+        attributes: ['id', 'nickname'],
       }]
     })
     res.status(201).json(fullPost);
@@ -42,8 +47,15 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST 
     }
     const comment = await Comment.create({
       content: req.body.content,
-      PostId: req.params.postId, // reducer > post.js > ADD_COMMENT_SUCCESS -> action.data.PostId 대소문자 일치시켜주어야 한다!
+      PostId: parseInt(req.params.postId, 10), // reducer > post.js > ADD_COMMENT_SUCCESS -> action.data.PostId 대소문자 일치시켜주어야 한다!
       UserId: req.user.id,
+    })
+    const fullComment = await Comment.findOne({
+      where: { id: comment.id },
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname'],
+      }],
     })
     res.status(201).json(comment);
   } catch(error) {

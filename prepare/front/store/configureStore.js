@@ -4,7 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 
 import reducer from '../reducers'
-import rootSaga from '../saga';
+import rootSaga from '../sagas';
 
 // const loggerMiddleware = ({ dispatch, getState }) => (next) => (action) => {
 //   console.log(action);
@@ -15,7 +15,7 @@ import rootSaga from '../saga';
 const configureStore = (context) => {
   console.log(context);
   const sagaMiddleware = createSagaMiddleware();
-  const middlewares = [sagaMiddleware, /*loggerMiddleware*/];
+  const middlewares = [ sagaMiddleware ];  /*loggerMiddleware*/
   const enhancer = process.env.NODE_ENV === 'production'
     ? compose(applyMiddleware(...middlewares))                      // 배포용일때 Devtool연결 안해놓고 
     : composeWithDevTools(

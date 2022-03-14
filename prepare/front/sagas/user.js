@@ -60,16 +60,14 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post('/user/logOut')
+  return axios.post('/user/logout')
 }
 
 function* logOut() {
   try{
-    // const result = yield call(logOutAPI);
-    yield delay(1000);
+    const result = yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
-      data: result.data
     });
   } catch (err) {
     yield put({
@@ -103,10 +101,9 @@ function followAPI() {
   return axios.post('/api/follow')
 }
 
-function*follow(action) {
+function* follow(action) {
   try{
-    // const result = yield call(followAPI);
-    yield delay(1000);
+    const result = yield call(followAPI);
     yield put({
       type: FOLLOW_SUCCESS,
       data: action.data,
@@ -125,8 +122,7 @@ function unfollowAPI() {
 
 function* unfollow(action) {
   try{
-    // const result = yield call(unfollowAPI);
-    yield delay(1000);
+    const result = yield call(unfollowAPI);
     yield put({
       type: UNFOLLOW_SUCCESS,
       data: action.data,

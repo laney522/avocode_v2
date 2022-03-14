@@ -6,14 +6,18 @@ import PostForm from '../components/PostForm';
 import PostCard from '../components/PostCard';
 import { LOAD_POSTS_REQUEST } from '../reducers/post';
 import { LOAD_USER_REQUEST } from '../reducers/user';
-import { LOAD_MY_INFO_REQUEST } from '../reducers/user';
-
 
 const Home = () => {
   const dispatch = useDispatch();
   const { me } = useSelector((state) => state.user);
   const { mainPosts, hasMorePosts, loadPostsLoading, retweetError } = useSelector((state) => state.post);
 
+  useEffect(() => {
+    if (retweetError) {
+      alert(retweetError);
+    }
+  }, [retweetError]);
+  
   useEffect(() => {
     dispatch({
       type: LOAD_USER_REQUEST,
@@ -23,20 +27,6 @@ const Home = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (retweetError) {
-      alert(retweetError);
-    }
-  }, [retweetError]);
-
-  useEffect(() => {
-    dispatch({
-      type: LOAD_MY_INFO_REQUEST,
-    });
-    dispatch({
-      type: LOAD_POSTS_REQUEST,
-    });
-  }, []);
 
   // scrollY : 얼마나 내렸는지
   // clientHeight: 화면 보이는 길이

@@ -53,7 +53,7 @@ const PostCard = ({ post }) => {
             key="ellipsis"
             content={(
               <Button.Group>
-                {id && post.UserId === id
+                {id && post.UserId === id 
                   ? (
                     <>
                       <Button>수정</Button>
@@ -70,9 +70,9 @@ const PostCard = ({ post }) => {
         extra={id && <FollowButton post={post} />}
       >
         <Card.Meta
-          avatar={<Avatar>{ /* post.User.nickname[0] */ }</Avatar>}
+          avatar={<Avatar>{post.User.nickname[0]}</Avatar>}
           title={post.User.nickname}
-          description={<PostCardContent postData={post.content} />}
+          description={post.content}
         />
       </Card>
       {commentFormOpened && (
@@ -108,9 +108,9 @@ PostCard.propTypes = {
     User: PropTypes.object,
     UserId: PropTypes.number,
     content: PropTypes.string,
-    createdAt: PropTypes.object,
-    Comments: PropTypes.arrayOf(PropTypes.any),
-    Images: PropTypes.arrayOf(PropTypes.any),
+    createdAt: PropTypes.string,
+    Comments: PropTypes.arrayOf(PropTypes.object),
+    Images: PropTypes.arrayOf(PropTypes.object),
   }).isRequired,
 };
 
