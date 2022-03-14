@@ -47,19 +47,19 @@ function* addPost(action) {
     const result = yield call(addPostAPI, action.data);
     const id = shortId.generate();
     yield put({
-      type: 'ADD_POST_SUCCESS',
+      type: ADD_POST_SUCCESS,
       data: {
         id,
         content: action.data,
       },
     });
-    // yield put({
-    //   type: ADD_POST_TO_ME,
-    //   data: result.data.id,
-    // });
+    yield put({
+      type: ADD_POST_TO_ME,
+      data: result.data.id,
+    });
   } catch (err) {
     yield put({
-      type: 'ADD_POST_FAILURE',
+      type: ADD_POST_FAILURE,
       data: err.response.data,
     })
   }
@@ -114,7 +114,7 @@ function* watchLoadPosts() {
 }
 
 function* watchAddPost() {
-  yield takeLatest('ADD_POST_REQUEST', addPost);
+  yield takeLatest(ADD_POST_REQUEST, addPost);
 }
 
 function* watchRemovePost() {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Input, Menu, Row, Col } from 'antd';
 import { useSelector } from 'react-redux';
 
-import LoginForm from '../components/LoginForm';
+import LoginForm from './LoginForm';
 import UserProfile from '../components/UserProfile';
 import styled from 'styled-components';
 
