@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import AppLayout from '../components/AppLayout';
 import Head from 'next/head';
 import { useSelector, useDispatch } from 'react-redux';
 
 import NicknameEditForm from '../components/NicknameEditForm';
 import FollowList from '../components/FollowList';
-import { Router } from 'next/router';
+import  Router  from 'next/router';
 import { LOAD_FOLLOWERS_REQUEST, LOAD_FOLLOWINGS_REQUEST } from '../reducers/user';
 
 const Profile = () => {
@@ -20,7 +20,7 @@ const Profile = () => {
       type: LOAD_FOLLOWINGS_REQUEST,
     });
   }, []);
-
+  
   useEffect(() => {
     if (!(me && me.id)) {
       Router.push('/');
@@ -30,6 +30,9 @@ const Profile = () => {
   if (!me) {
     return null;
   }
+
+  
+
 
   return (
     <>
