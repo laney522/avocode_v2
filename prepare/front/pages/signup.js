@@ -20,13 +20,13 @@ const Signup = () => {
 
   useEffect(() => {
     if (me && me.id) {
-      Router.replace('/');
-    }
+      Router.replace('/');  // 회원가입 성공하면 회원가입페이지에서 나가도록 해준다.push는 뒤로가기 하면 이전페이지가 나타나는데 , replace는 그 페이지가 아예 기록에서 사라진다.
+    } 
   }, [me && me.id]);
 
   useEffect(() => {
     if (signUpDone) {
-      Router.push('/');
+      Router.replace('/');
     }
   }, [signUpDone]);
 

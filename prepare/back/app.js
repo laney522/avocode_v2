@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
 const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
@@ -23,8 +24,8 @@ passportConfig();
 
 app.use(morgan('dev'));
 app.use(cors({
-  origin: 'http://localhost:3060', // true
-  credentials: true,
+  origin: 'http://localhost:3060', // true , http://localhost:3060
+  credentials: true,  // 이렇게 해주어야 서로 다른 도메인일때도 쿠키가 전달된다.
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -48,10 +49,6 @@ app.use(passport.session());
 app.get('/', (req, res) => {
   res.send('hello express');
 });
-
-// app.get('/api', (req, res) => {
-//   res.send('hello api');
-// });
 
 app.use('/posts', postsRouter);
 app.use('/post', postRouter);

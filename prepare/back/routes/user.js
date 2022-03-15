@@ -24,11 +24,11 @@ router.get('/', async (req, res, next) => { // GET /user
           attributes: ['id'],
         }, {
           model: User,
-          as: 'Followers', 
+          as: 'Followers',
           attributes: ['id'],
-        }] 
+        }]
       })
-    res.status(200).json(fullUserWithoutPassword);
+      res.status(200).json(fullUserWithoutPassword);
     } else {
       res.status(200).json(null);
     }
@@ -37,6 +37,11 @@ router.get('/', async (req, res, next) => { // GET /user
     next(error);
   }
 });
+
+// 200번대는 성공
+// 300번대는 리다이렉트 아니면 캐싱
+// 400번대는 클라이언트 에러
+// 500번대는 서버 에러 
 
 router.post('/login', isNotLoggedIn, (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
@@ -52,7 +57,7 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
         console.error(loginErr);
         return next(loginErr);
       }
-     const fullUserWithoutPassword = await User.findOne({
+      const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
         attributes: {
           exclude: ['password']
@@ -66,9 +71,9 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
           attributes: ['id'],
         }, {
           model: User,
-          as: 'Followers', 
+          as: 'Followers',
           attributes: ['id'],
-        }] 
+        }]
       })
       // res.setHeader('Cookie', 'cxlhy')
       return res.status(200).json(fullUserWithoutPassword);
@@ -99,7 +104,7 @@ router.post('/', isNotLoggedIn, async (req, res, next) => {  // post /user
   }
 });
 
-router.post('/logout', isLoggedIn, (req, res, next) => {
+router.post('/logout', isLoggedIn, (req, res) => {
   req.logout();
   req.session.destroy();
   res.send('ok');

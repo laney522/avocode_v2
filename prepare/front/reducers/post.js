@@ -2,17 +2,18 @@ import shortId from 'shortid';
 import produce from 'immer';
 
 export const initialState = {
-  mainPosts: [{
-    id: 1,
-    User: {
-      id: 1,
-      nickname: '레니',
-    },
-    content: '첫 번째 게시글 #해시태그 #익스프레스',
-    Images: [{
-      src: ''
-    }]
-  }],
+  mainPosts: [
+    // {
+    // id: 1,
+    // User: {
+    //   id: 1,
+    //   nickname: '레니',
+    // },
+    // content: '첫 번째 게시글 #해시태그 #익스프레스',
+    // Images: [{
+    //   src: ''
+    // }
+  ],
   imagePaths: [],
   hasMorePosts: true,
   loadPostsLoading: false,
@@ -56,15 +57,6 @@ export const addComment = (data) => ({
   data,
 })
 
-
-const dummyComment = (data) => ({
-  id: shortId.generate(),
-  content: data,
-  User: {
-    id: 1,
-    nickname: '레니',
-  },
-});
 
 // 리듀서 : 이전상태를 액션을 통해 다음 상태로 만들어내는 함수( 불변성은 지키면서 )
 const reducer = (state = initialState, action) => produce(state, (draft) => {

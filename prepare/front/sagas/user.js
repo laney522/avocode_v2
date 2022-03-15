@@ -28,12 +28,12 @@ function* loadUser(action) {
     console.log('saga logIn');
     const result = yield call(loadUserAPI, action.data);
     yield put({
-      type: LOAD_MY_INFO_SUCCESS,
+      type: LOAD_USER_SUCCESS,
       data: result.data,
     });
   } catch (err) {
     yield put({
-      type: LOAD_MY_INFO_FAILURE,
+      type: LOAD_USER_FAILURE,
       error: err.response.data,
     })
   }
@@ -60,12 +60,12 @@ function* logIn(action) {
 }
 
 function logOutAPI() {
-  return axios.post('/user/logout')
+  return axios.post('/logout');
 }
 
 function* logOut() {
   try{
-    const result = yield call(logOutAPI);
+    yield call(logOutAPI);
     yield put({
       type: LOG_OUT_SUCCESS,
     });

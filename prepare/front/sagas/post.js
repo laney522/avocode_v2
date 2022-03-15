@@ -18,14 +18,14 @@ import {
 } from '../reducers/post';
 import { ADD_POST_TO_ME, REMOVE_POST_OF_ME } from '../reducers/user';
 
-function loadPostsAPI(data) {
-  return axios.get('/api/post', data);
+function loadPostAPI(data) {
+  return axios.get('/post', data);
 }
 
 function* loadPosts(action) {
   try {
-    const result = yield call(addPostAPI, action.data);
-    const id = shortId.generate();
+    const result = yield call(loadPostAPI, action.data);
+    // const id = shortId.generate();
     yield put({
       type: LOAD_POSTS_SUCCESS,
       data: result.data,
@@ -39,13 +39,13 @@ function* loadPosts(action) {
 }
 
 function addPostAPI(data) {
-  return axios.post('/post', { content: data });
+  return axios.post('/post', { content: data });// 이렇게 해주어야 프론트엔드, 백엔드 서버에서 서로간 쿠키가 전달된다.
 }
 
 function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
-    const id = shortId.generate();
+    // const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
       data: {
@@ -66,7 +66,7 @@ function* addPost(action) {
 }
 
 function removePostAPI(data) {
-  return axios.delete('/api/post', data );
+  return axios.delete('/api/post', data);
 }
 
 function* removePost(action) {
@@ -90,7 +90,7 @@ function* removePost(action) {
 }
 
 function addCommentAPI(data) {
-  return axios.post(`/post/${data.postId}/comment`, data ); // POST /post/1/comment
+  return axios.post(`/post/${data.postId}/comment`, data); // POST /post/1/comment
 }
 
 function* addComment(action) {

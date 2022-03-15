@@ -50,13 +50,13 @@ router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST 
       PostId: parseInt(req.params.postId, 10), // reducer > post.js > ADD_COMMENT_SUCCESS -> action.data.PostId 대소문자 일치시켜주어야 한다!
       UserId: req.user.id,
     })
-    const fullComment = await Comment.findOne({
-      where: { id: comment.id },
-      include: [{
-        model: User,
-        attributes: ['id', 'nickname'],
-      }],
-    })
+    // const fullComment = await Comment.findOne({
+    //   where: { id: comment.id },
+    //   include: [{
+    //     model: User,
+    //     attributes: ['id', 'nickname'],
+    //   }],
+    // })
     res.status(201).json(comment);
   } catch(error) {
     console.error(error);
