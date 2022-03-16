@@ -1,4 +1,4 @@
-import { all, fork, delay, put, takeLatest, call } from 'redux-saga/effects';
+import { all, fork, put, takeLatest, call } from 'redux-saga/effects';
 import axios from 'axios';
 import { LOG_IN_REQUEST,
          LOG_IN_SUCCESS, 
@@ -10,9 +10,9 @@ import { LOG_IN_REQUEST,
          SIGN_UP_SUCCESS, 
          SIGN_UP_FAILURE, 
          FOLLOW_REQUEST, 
-         UNFOLLOW_REQUEST, 
          FOLLOW_SUCCESS, 
          FOLLOW_FAILURE, 
+         UNFOLLOW_REQUEST, 
          UNFOLLOW_SUCCESS, 
          UNFOLLOW_FAILURE,
          CHANGE_NICKNAME_REQUEST,
@@ -27,6 +27,9 @@ import { LOG_IN_REQUEST,
          REMOVE_FOLLOWER_REQUEST,
          REMOVE_FOLLOWER_SUCCESS,
          REMOVE_FOLLOWER_FAILURE,
+         LOAD_USER_REQUEST,
+         LOAD_USER_SUCCESS,
+         LOAD_USER_FAILURE,
 } from '../reducers/user';
 
 function removeFollowerAPI(data) {
@@ -44,7 +47,7 @@ function* removeFollower(action) {
     yield put({
       type: REMOVE_FOLLOWER_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -60,10 +63,11 @@ function* loadFollowers(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_FOLLOWERS_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -79,10 +83,11 @@ function* loadFollowings(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_FOLLOWINGS_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -98,10 +103,11 @@ function* changeNickname(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: CHANGE_NICKNAME_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -111,17 +117,17 @@ function loadUserAPI() {
 
 function* loadUser(action) {
   try{
-    console.log('saga logIn');
     const result = yield call(loadUserAPI, action.data);
     yield put({
       type: LOAD_USER_SUCCESS,
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_USER_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -138,15 +144,16 @@ function* logIn(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_IN_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
 function logOutAPI() {
-  return axios.post('/logout');
+  return axios.post('/user/logout');
 }
 
 function* logOut() {
@@ -156,10 +163,11 @@ function* logOut() {
       type: LOG_OUT_SUCCESS,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOG_OUT_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -176,10 +184,11 @@ function* signUp(action) {
 
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: SIGN_UP_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -195,10 +204,11 @@ function* follow(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: FOLLOW_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -214,10 +224,11 @@ function* unfollow(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: UNFOLLOW_FAILURE,
       error: err.response.data,
-    })
+    });
   }
 }
 
@@ -273,5 +284,5 @@ export default function* userSaga() {
     fork(watchLogIn),
     fork(watchLogOut),
     fork(watchSignUp),
-  ])
+  ]);
 }

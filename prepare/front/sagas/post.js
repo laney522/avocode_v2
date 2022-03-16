@@ -1,6 +1,5 @@
 import axios from 'axios';
-import shortId from 'shortid';
-import { delay, put, takeLatest, all, fork, throttle, call } from 'redux-saga/effects';
+import { put, takeLatest, all, fork, throttle, call } from 'redux-saga/effects';
 
 import {
   ADD_COMMENT_FAILURE,
@@ -16,9 +15,9 @@ import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_FAILURE,
   LIKE_POST_REQUEST,
-  UNLIKE_POST_REQUEST,
-  LIKE_POST_FAILURE,
   LIKE_POST_SUCCESS,
+  LIKE_POST_FAILURE,
+  UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
 } from '../reducers/post';
@@ -39,7 +38,7 @@ function* likePost(action) {
     yield put({
       type: LIKE_POST_FAILURE,
       data: err.response.data,
-    })
+    });
   }
 }
 
@@ -58,7 +57,7 @@ function* unlikePost(action) {
     yield put({
       type: UNLIKE_POST_FAILURE,
       data: err.response.data,
-    })
+    });
   }
 }
 
@@ -74,10 +73,11 @@ function* loadPosts(action) {
       data: result.data,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: LOAD_POSTS_FAILURE,
       data: err.response.data,
-    })
+    });
   }
 }
 
@@ -88,23 +88,20 @@ function addPostAPI(data) {
 function* addPost(action) {
   try {
     const result = yield call(addPostAPI, action.data);
-    // const id = shortId.generate();
     yield put({
       type: ADD_POST_SUCCESS,
-      data: {
-        id,
-        content: action.data,
-      },
+      data: result.data,
     });
     yield put({
       type: ADD_POST_TO_ME,
       data: result.data.id,
     });
   } catch (err) {
+    console.error(err);
     yield put({
       type: ADD_POST_FAILURE,
       data: err.response.data,
-    })
+    });
   }
 }
 
@@ -148,7 +145,7 @@ function* addComment(action) {
     yield put({
       type: ADD_COMMENT_FAILURE,
       data: err.response.data,
-    })
+    });
   }
 }
 
