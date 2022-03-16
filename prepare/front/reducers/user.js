@@ -37,7 +37,7 @@ export const initialState = {
   me: null,
   signUpData: {},
   loginData: {},
-}
+};
 
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';

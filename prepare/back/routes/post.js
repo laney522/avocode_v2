@@ -1,20 +1,49 @@
 const express = require('express');
+const multer = require('multer');
+const path = require('path');  
+const fs = require('fs');
 
-
-// router.post('/login', (req, res, next) => {
-  
-  // })
-  
 const { Post, Image, Comment, User } = require('../models');
 const { isLoggedIn } = require('./middlewares');
   
 const router = express.Router();
-router.post('/', isLoggedIn, async (req, res, next) => {
+
+try {
+  fs.accessSync('uploads');
+} catch (error) {
+  console.log('uploads 폴더가 없으므로 생성합니다.');
+  fs.mkdirSync('uploads');
+}
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, 'uploads');
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname); // 확장자 추출(png)
+      const basename = path.basename(file.originalname, ext); // 레니
+      done(null, basename + '_' + new Date().getTime() + ext); // 레니15335436332.png
+    },
+  }),
+  limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
+});
+
+router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   try {
     const post = await Post.create({
       content: req.body.content,
       UserId: req.user.id,
     });
+    if (req.body.image) {
+      if (Array.isArray(req.body.image)) { // 이미지를 여러개 올리면 배열로 올라감
+        const images = await Promise.all(req.body.image.map((image) => Image.create({ src: image })));  // map을 해서 시퀄라이즈 create 만들어주세요.
+        await post.addImages(images);
+      } else { // 이미지를 하나만 올리면 image: 레니.png
+        const image = await Image.create({ src: req.body.image });
+        await post.addImages(image);
+      }
+    }
     const fullPost = await Post.findOne({
       where: { id: post.id },
       include: [{
@@ -39,6 +68,11 @@ router.post('/', isLoggedIn, async (req, res, next) => {
     console.error(error);
     next(error);
   }
+});
+
+router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => { // POST /post/images
+  console.log(req.files);
+  res.json(files.map((v) => v.filename));
 });
 
 router.post('/:postId/comment', isLoggedIn, async (req, res, next) => { // POST / post/1/comment
