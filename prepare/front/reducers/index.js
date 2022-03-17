@@ -5,18 +5,19 @@ import post from './post';
 
 
 // (이전상태, 액션) => 다음상태
-const rootReducer = combineReducers({
-  index: (state = {}, action ) => {
-    switch(action.type) {
-      case HYDRATE:
-          console.log('HYDRATE', action);
-          return { ...state, ...action.payload };
-      default: 
-        return state;    // Switch 문에 이 부분이 없으면 Error massage : "user" returned undefined during initialization.
+const rootReducer = (state, action) => {
+  switch (action.type) {
+    case HYDRATE:
+      console.log('HYDRATE', action);
+      return action.payload;
+    default: {
+      const combineReducer = combineReducers({
+        user,
+        post,
+      });
+      return combineReducer(state, action);
     }
-  },
-  user,
-  post,
-});
+  }
+};
 
 export default rootReducer;
