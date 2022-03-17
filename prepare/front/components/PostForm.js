@@ -9,7 +9,7 @@ import useInput from '../hooks/useInput';
 const PostForm = () => {
   const { imagePaths, addPostDone } = useSelector((state) => state.post);
   const dispatch = useDispatch();
-  const { text, onChangeText, setText } = useInput(''); // 커스텀 훅 만들어놓은거 자주 활용하기!
+  const [ text, onChangeText, setText ] = useInput(''); // 커스텀 훅 만들어놓은거 자주 활용하기!
 
   useEffect(() => {
     if (addPostDone) {
@@ -34,7 +34,7 @@ const PostForm = () => {
 
   const imageInput = useRef();
   const onClickImageUpload = useCallback(() => {
-    imageInput.current?.click?.();
+    imageInput.current.input.click(); 
   }, [imageInput.current]);
 
   const onChangeImages = useCallback((e) => {
