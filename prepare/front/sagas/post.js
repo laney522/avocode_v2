@@ -59,7 +59,7 @@ function* retweet(action) {
 }
 
 function uploadImagesAPI(data) {
-  return axios.patch(`/post/images`, data);
+  return axios.post('/post/images', data);
 }
 
 function* uploadImages(action) {

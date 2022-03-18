@@ -29,6 +29,11 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 }, // 20MB
 });
 
+router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => { // POST /post/images
+  console.log(req.files);
+  res.json(req.files.map((v) => v.filename));
+});
+
 router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   try {
     const hashtags = req.body.content.match(/#[^\s#]+/g);
@@ -75,11 +80,6 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
     console.error(error);
     next(error);
   }
-});
-
-router.post('/images', isLoggedIn, upload.array('image'), async (req, res, next) => { // POST /post/images
-  console.log(req.files);
-  res.json(files.map((v) => v.filename));
 });
 
 router.get('/:postId/', async (req, res, next) => { // GET / post/1
