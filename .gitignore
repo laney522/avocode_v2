@@ -158,4 +158,9 @@ psd
 thumb
 sketch
 
+react-avocode.pem
+node_modules
+.env
+.next
+
 # End of https://www.toptal.com/developers/gitignore/api/node,react,nextjs
