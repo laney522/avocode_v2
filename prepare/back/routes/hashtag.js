@@ -14,7 +14,7 @@ router.get('/:hashtag', async (req, res, next) => { // GET /hashtag/노드
       order: [['createdAt', 'DESC']],
       include: [{
         model: Hashtag, 
-        where: { name: req.params.hashtag },
+        where: { name: decodeURIComponent(req.params.hashtag) },
       }, {
         model: Image,
       }, {

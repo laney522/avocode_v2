@@ -139,11 +139,12 @@ function* loadPost(action) {
 }
 
 function loadHashtagPostsAPI(data, lastId) {
-  return axios.get(`/hashtag/${data}?lastId=${lastId || 0}`);
+  return axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 }
 
 function* loadHashtagPosts(action) {
   try {
+    console.log('loadHashtag console');
     const result = yield call(loadHashtagPostsAPI, action.data, action.lastId);
     yield put({
       type: LOAD_HASHTAG_POSTS_SUCCESS,
@@ -290,9 +291,9 @@ function* watchLoadPost() {
 //   yield throttle(5000, LOAD_HASHTAG_POSTS_REQUEST, loadHashtagPosts);
 // }
 
-// function* watchLoadUserPosts() {
-//   yield throttle(5000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
-// }
+function* watchLoadUserPosts() {
+  yield throttle(5000, LOAD_USER_POSTS_REQUEST, loadUserPosts);
+}
 
 function* watchLoadPosts() {
   yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
@@ -318,7 +319,7 @@ export default function* postSaga() {
     fork(watchUnlikePost),
     fork(watchAddPost),
     fork(watchLoadPost),
-    // fork(watchLoadUserPosts),
+    fork(watchLoadUserPosts),
     // fork(watchLoadHashtagPosts),
     fork(watchLoadPosts),
     fork(watchRemovePost),
