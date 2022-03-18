@@ -1,6 +1,7 @@
 // post/[id].js
 import React from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 import wrapper from '../../store/configureStore';
 import axios from 'axios';
 import { LOAD_MY_INFO_REQUEST } from '../../reducers/user';
@@ -15,8 +16,19 @@ const Post =() => {
   const { id } = router.query;
   const { singlePost } = useSelector((state) => state.post);
 
-  return(
+  return (
     <AppLayout>
+      <Head>
+        <title>
+          {singlePost.User.nickname}
+          님의 글
+        </title>
+        <meta name="description" content={singlePost.content} />
+        <meta property="og:title" content={`${singlePost.User.nickname}님의 게시글`} />
+        <meta property="og:description" content={singlePost.content} />
+        <meta property="og:image" content={singlePost.Images[0] ? singlePost.Images[0].src : 'https://avocode.com/favicon.ico'} />
+        <meta property="og:url" content={`https://avocode.com/post/${id}`} />
+      </Head>
       <PostCard post={singlePost} />
     </AppLayout>
   );
