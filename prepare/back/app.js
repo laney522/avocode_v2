@@ -33,7 +33,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'avocode.com'], // true , http://localhost:3060
+  origin: ['http://localhost:3060', 'avocode.com', 'http://52.79.251.218'], // true , http://localhost:3060
   credentials: true,  // 이렇게 해주어야 서로 다른 도메인일때도 쿠키가 전달된다.
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
