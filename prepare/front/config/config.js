@@ -1,1 +1,1 @@
-export const backUrl = 'http://3.34.4.174';
+export const backUrl = 'http://api.avocode.site';

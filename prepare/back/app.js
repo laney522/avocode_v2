@@ -15,6 +15,7 @@ const userRouter = require('./routes/user');
 // const hashtagRouter = require('./routes/hashtag');
 const db = require('./models');
 const passportConfig = require('./passport');
+const { preProcessFile } = require('typescript');
 
 dotenv.config();
 const app = express();
@@ -33,8 +34,8 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'avocode.com', 'http://52.79.251.218'], // true , http://localhost:3060
-  credentials: true,  // 이렇게 해주어야 서로 다른 도메인일때도 쿠키가 전달된다.
+  origin: ['http://localhost:3060', 'http://avocode.site'],
+  credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
 app.use(express.json());
@@ -44,6 +45,11 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    domain: process.env.NODE_ENV === 'production' && '.avocode.site'
+  },
 }));
 app.use(passport.initialize());
 app.use(passport.session());
