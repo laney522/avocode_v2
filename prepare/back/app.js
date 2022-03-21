@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(morgan('dev'));
 }
 app.use(cors({
-  origin: ['http://localhost:3060', 'http://avocode.site'],
+  origin: ['http://localhost:3060', 'http://avocode.site', 'http://54.180.17.237'],
   credentials: true,
 }));
 app.use('/', express.static(path.join(__dirname, 'uploads')));
